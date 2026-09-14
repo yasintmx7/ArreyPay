@@ -1,0 +1,3 @@
+import {createPublicClient,defineChain,http,erc20Abi} from 'viem';
+const client=createPublicClient({chain:defineChain({id:5042002,name:'Arc Testnet',nativeCurrency:{name:'USDC',symbol:'USDC',decimals:18},rpcUrls:{default:{http:['https://rpc.testnet.arc.io']}}}),transport:http('https://rpc.testnet.arc.io',{timeout:15000,retryCount:0})});
+const chainId=await client.getChainId();const decimals=await client.readContract({address:'0x3600000000000000000000000000000000000000',abi:erc20Abi,functionName:'decimals'});if(chainId!==5042002||decimals!==6)throw Error('Arc configuration mismatch');console.log(JSON.stringify({chainId,usdcDecimals:decimals,block:String(await client.getBlockNumber())}));
