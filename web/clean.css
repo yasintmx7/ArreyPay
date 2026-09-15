@@ -345,7 +345,7 @@ dialog{
   .page-heading>.btn{width:100%!important;margin-top:13px!important}
   .content>.notice{font-size:10.8px!important;padding:9px 10px!important;margin-bottom:13px!important}
 
-  /* Five standard destinations. Refunds stay available inside the checkout flow. */
+  /* Five stable destinations; secondary tools live under More. */
   .mobile-nav{
     display:grid!important;
     grid-template-columns:repeat(5,minmax(0,1fr))!important;
@@ -375,9 +375,9 @@ dialog{
   }
   .mobile-nav a svg{width:18px!important;height:18px!important}
   .mobile-nav a span{display:block!important;font-size:9px!important;white-space:nowrap!important}
-  .mobile-nav a.active{color:#d4fa83!important;background:rgba(212,250,131,.09)!important;opacity:1!important}
-  .mobile-nav a:nth-child(4){display:none!important}
-  .mobile-nav a:nth-child(5),.mobile-nav a:nth-child(6){display:flex!important}
+  .mobile-nav a.active{color:#d4fa83!important;background:rgba(212,250,131,.1)!important;opacity:1!important}
+  .mobile-nav a.active::after{content:'';position:absolute;bottom:2px;width:18px;height:2px;border-radius:2px;background:#d4fa83}
+  .mobile-nav a{position:relative!important}
 
   .quick-actions{grid-template-columns:1fr 1fr!important;gap:9px!important;margin-bottom:11px!important}
   .quick-actions>a,.quick-actions>button{min-height:64px!important;padding:11px!important}

@@ -1,6 +1,6 @@
 import './style.css';import './testnet.css';
 import {icon,esc} from './ui.js';
-import {state,subscribe,emit,getProviders,connect,disconnect,addArcNetwork,checkNetwork,initRegistry,setRegistry,deployRegistry,loadBills,loadBill,createBill,estimatePayment,contribute,cancelBill,refundBill,sendUSDC,estimateSend,refreshWallet,EXPLORER,WC_PROJECT_ID} from './chain.js';
+import {state,subscribe,emit,getProviders,connect,disconnect,autoConnect,addArcNetwork,checkNetwork,initRegistry,setRegistry,deployRegistry,loadBills,loadBill,createBill,estimatePayment,contribute,cancelBill,refundBill,sendUSDC,estimateSend,refreshWallet,EXPLORER,WC_PROJECT_ID} from './chain.js';
 import {parseAmount,formatAmount as fmt,equalShare} from './amounts.js';
 const $=id=>document.getElementById(id);const short=a=>a?`${a.slice(0,6)}…${a.slice(-4)}`:'Not connected';
 const nav=[['dashboard','grid','Overview'],['checkouts','bill','Checkouts'],['send','arrow','Send USDC'],['refunds','shield','Refunds'],['merchant','store','Business'],['bridge','wallet','Add funds']];
