@@ -34,6 +34,13 @@ export async function ensureArc(){
  const accounts=await state.provider.request({method:'eth_accounts'});if(!accounts[0]||getAddress(accounts[0])!==state.account)throw Error('Wallet account changed. Reconnect before continuing.');state.chainId=id;
  return createWalletClient({account:state.account,chain:arc,transport:custom(state.provider)});
 }
+export async function addArcNetwork(){
+ if(!state.provider)throw Error('Connect your wallet first.');
+ const params={chainId:'0x'+ARC_ID.toString(16),chainName:arc.name,nativeCurrency:arc.nativeCurrency,rpcUrls:[ARC_RPC,'https://rpc.drpc.testnet.arc.io'],blockExplorerUrls:[EXPLORER]};
+ try{await state.provider.request({method:'wallet_switchEthereumChain',params:[{chainId:params.chainId}]});}
+ catch(e){if(e.code!==4902&&e.cause?.code!==4902)throw e;await state.provider.request({method:'wallet_addEthereumChain',params:[params]});}
+ state.chainId=Number(await state.provider.request({method:'eth_chainId'}));emit();return state.chainId===ARC_ID;
+}
 export async function checkNetwork(){const [chainId,decimals]=await Promise.all([publicClient.getChainId(),publicClient.readContract({address:USDC,abi:erc20Abi,functionName:'decimals'})]);if(chainId!==ARC_ID||Number(decimals)!==6)throw Error('Arc network or USDC configuration mismatch. Payments are disabled.');state.network=true;emit();return true;}
 export async function setRegistry(value){if(!isAddress(value))throw Error('Enter a valid Arc contract address.');const addr=getAddress(value);state.verified=false;const code=await publicClient.getCode({address:addr});if(code?.toLowerCase()!==artifact.deployedBytecode.toLowerCase())throw Error('This address does not match the compiled Arrey checkout contract. No approval will be requested.');state.registry=addr;state.verified=true;const url=new URL(location.href);url.searchParams.set('registry',addr);history.replaceState(null,'',url);emit();return addr;}
 export async function initRegistry(){const value=new URL(location.href).searchParams.get('registry')||DEFAULT_CONTRACT;if(value)await setRegistry(value);}
