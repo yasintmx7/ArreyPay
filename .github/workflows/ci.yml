@@ -23,8 +23,15 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+      - name: Repair-check lockfile
+        shell: bash
+        run: |
+          npm install --no-audit --no-fund
+          if ! git diff --quiet -- package-lock.json; then
+            echo "package-lock.json is stale. Generated delta:"
+            git diff -- package-lock.json
+            exit 1
+          fi
 
       - name: Run tests
         run: npm test
