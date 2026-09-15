@@ -5,3 +5,5 @@ export function parseAmount(value){
 }
 export function formatAmount(amount){const n=BigInt(amount);const fraction=(n%1000000n).toString().padStart(6,'0').replace(/0+$/,'').padEnd(2,'0');return `${n/1000000n}.${fraction}`;}
 export function equalShare(target,people,already=0n,remaining=target){const n=BigInt(people);const suggested=(BigInt(target)+n-1n)/n-BigInt(already);return suggested<=0n?0n:suggested>remaining?remaining:suggested;}
+export function gasWeiToUSDC(gasWei){const wei=BigInt(gasWei);if(wei<=0n)return 0n;const scale=1000000000000n;return (wei+scale-1n)/scale;}
+export function requiredBalance(amount,gasWei,safetyBps=1500n){const fee=gasWeiToUSDC(gasWei);const buffered=fee+(fee*BigInt(safetyBps)+9999n)/10000n;return BigInt(amount)+buffered;}
