@@ -1,218 +1,436 @@
-/* Arrey responsive simplification layer.
-   Keeps product functionality intact while reducing visual noise. */
+/* Arrey professional workspace layer.
+   Final structural polish: full desktop navigation, correct shell alignment,
+   intentional connected/disconnected states, and responsive payment screens. */
 
 :root{
-  --clean-max:1180px;
-  --clean-gap:20px;
+  --pro-max:1240px;
+  --pro-sidebar:232px;
+  --pro-radius:16px;
+  --pro-shadow:0 8px 28px rgba(15,43,35,.055);
 }
 
-/* Global workspace rhythm */
-.content{max-width:var(--clean-max);margin:0 auto;padding:36px 34px 54px!important}
-.page-heading{margin-bottom:22px!important;align-items:center!important}
-.page-heading h1{font-size:34px!important;line-height:1.08!important;letter-spacing:-.035em!important;margin:0 0 6px!important}
-.page-heading p{max-width:640px!important;margin:0!important;font-size:15px!important;line-height:1.55!important}
-.page-heading>.btn{flex:0 0 auto}
-
-/* Simplify shell */
-.crumb{display:none!important}
-.topbar{padding:12px 22px!important;min-height:64px!important}
-.top-actions{gap:10px!important}
-.network-pill small{display:none!important}
-.network-pill{padding:9px 12px!important}
-.wallet-button{min-height:42px!important}
-.workspace{padding:14px!important;margin:14px 10px 20px!important}
-.workspace .small{font-size:11px!important}
-.sidebar .help{display:none!important}
-.sidebar-bottom{gap:6px!important}
-.sidebar-bottom .settings-link{font-size:12px!important;padding:9px 12px!important}
+/* ---------- App shell ---------- */
+.layout{
+  display:grid!important;
+  grid-template-columns:var(--pro-sidebar) minmax(0,1fr)!important;
+  min-height:100vh!important;
+}
+.sidebar{
+  width:var(--pro-sidebar)!important;
+  padding:26px 16px 20px!important;
+}
+.main{
+  grid-column:2!important;
+  margin-left:0!important;
+  width:auto!important;
+  min-width:0!important;
+}
+.sidebar>.brand{
+  margin:2px 8px 18px!important;
+  font-size:22px!important;
+}
+.workspace{
+  margin:0 0 20px!important;
+  padding:12px!important;
+  border-radius:14px!important;
+}
+.workspace strong{font-size:12.5px!important}
+.workspace .small{font-size:10.5px!important}
+.nav-label{margin:20px 8px 7px!important;padding:0!important}
+.nav{gap:3px!important}
+.nav a{
+  display:flex!important;
+  margin:0!important;
+  padding:10px 11px!important;
+  border-radius:10px!important;
+  font-size:13px!important;
+}
+.sidebar-bottom{gap:4px!important}
+.sidebar .help{
+  display:block!important;
+  margin:14px 0 8px!important;
+  padding:12px!important;
+  border-radius:12px!important;
+  line-height:1.45!important;
+}
+.sidebar .help p{margin:5px 0 7px!important;font-size:11px!important;line-height:1.45!important}
+.sidebar .help a{font-size:11px!important}
+.sidebar-bottom .settings-link{font-size:11.5px!important;padding:8px 10px!important}
 .footer{display:none!important}
 
-/* Keep primary navigation only. Refunds and Business remain accessible contextually. */
+/* All core desktop routes remain visible. */
 .sidebar .nav a:nth-child(4),
-.sidebar .nav a:nth-child(5){display:none!important}
+.sidebar .nav a:nth-child(5){display:flex!important}
 
-/* Compact notices instead of large alert blocks */
-.content>.notice,
-.panel>.notice,
-.checkout-layout>.notice{padding:11px 13px!important;border-radius:12px!important;font-size:12px!important;line-height:1.45!important;margin:12px 0!important}
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:25!important;
+  height:68px!important;
+  min-height:68px!important;
+  padding:0 32px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:18px!important;
+  background:rgba(245,247,242,.94)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+.crumb{
+  display:block!important;
+  font-size:13px!important;
+  white-space:nowrap!important;
+}
+.top-actions{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  margin-left:auto!important;
+}
+.network-pill{
+  min-height:38px!important;
+  padding:8px 11px!important;
+}
+.network-pill small{display:none!important}
+.wallet-button{
+  min-height:40px!important;
+  padding:9px 15px!important;
+  max-width:190px!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
 
-/* Dashboard: remove duplicate teaching sections */
+/* ---------- Main content ---------- */
+.content{
+  width:100%!important;
+  max-width:var(--pro-max)!important;
+  margin:0 auto!important;
+  padding:32px 34px 52px!important;
+}
+.page-heading{
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  gap:24px!important;
+  margin-bottom:20px!important;
+}
+.page-heading h1{
+  font-size:32px!important;
+  line-height:1.08!important;
+  letter-spacing:-.035em!important;
+  margin:0!important;
+}
+.page-heading p{
+  max-width:620px!important;
+  margin-top:7px!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+}
+.page-heading>.btn{flex:0 0 auto!important}
+
+.content>.notice{
+  margin:0 0 18px!important;
+  padding:10px 13px!important;
+  border-radius:10px!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+}
+.panel>.notice,.checkout-layout>.notice{
+  padding:10px 12px!important;
+  border-radius:10px!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  margin:12px 0!important;
+}
+
+/* ---------- Dashboard ---------- */
+.quick-actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin:0 0 14px!important;
+}
+.quick-actions>a,.quick-actions>button{
+  min-height:68px!important;
+  padding:13px 15px!important;
+  border-radius:14px!important;
+  box-shadow:none!important;
+}
+.quick-actions>a:hover,.quick-actions>button:hover{
+  transform:translateY(-1px)!important;
+  box-shadow:var(--pro-shadow)!important;
+}
+.quick-icon{
+  width:38px!important;
+  height:38px!important;
+  flex-basis:38px!important;
+  border-radius:10px!important;
+}
+.quick-actions strong{font-size:13.5px!important}
+.quick-actions small{font-size:11px!important}
+
+.stats{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin:0 0 26px!important;
+}
+.stat{
+  min-height:122px!important;
+  padding:17px 18px!important;
+  border-radius:14px!important;
+  box-shadow:none!important;
+}
+.stat:hover{box-shadow:var(--pro-shadow)!important}
+.stat-head{font-size:11.5px!important}
+.stat .money{font-size:25px!important;margin:10px 0 3px!important}
+.stat-foot{font-size:10.5px!important;margin-top:8px!important}
 .lower-grid{display:none!important}
-.quick-actions{gap:12px!important;margin:14px 0 18px!important}
-.quick-actions>a,.quick-actions>button{min-height:74px!important;padding:14px 16px!important;border-radius:16px!important}
-.quick-actions small{display:none!important}
-.quick-actions strong{font-size:14px!important}
-.quick-icon{width:36px!important;height:36px!important}
-.stats{gap:12px!important;margin:0 0 22px!important}
-.stat{padding:18px!important;border-radius:16px!important;min-height:126px!important}
-.stat-head{font-size:12px!important}
-.stat .money{font-size:26px!important;margin-top:12px!important}
-.stat-foot{font-size:11px!important;margin-top:12px!important}
 
-/* Disconnected dashboard should focus on one task only */
+.section-head{margin:0 0 10px!important}
+.section-head h2{font-size:18px!important}
+.tabs{
+  gap:3px!important;
+  margin:0 0 14px!important;
+  overflow-x:auto!important;
+  scrollbar-width:none!important;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{padding:7px 11px 10px!important;font-size:12px!important;white-space:nowrap!important}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.checkout-card{padding:17px!important;border-radius:14px!important;box-shadow:none!important}
+.checkout-card:hover{box-shadow:var(--pro-shadow)!important;transform:translateY(-1px)!important}
+.checkout-card h3{font-size:16px!important;margin:12px 0 4px!important}
+.card-sub,.card-meta,.card-bottom{font-size:11px!important}
+.card-amount{font-size:20px!important;margin:15px 0 9px!important}
+
+/* Recent activity reads like a banking activity feed, not another large card. */
+.activity-block{
+  padding:0!important;
+  margin:24px 0 0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.activity-block .eyebrow{display:none!important}
+.activity-block .section-head{margin-bottom:10px!important}
+.activity-list{
+  overflow:hidden!important;
+  border:1px solid rgba(26,80,64,.12)!important;
+  border-radius:14px!important;
+  background:#fff!important;
+}
+.activity-list>a{
+  padding:13px 15px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(26,80,64,.08)!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.activity-list>a:last-child{border-bottom:0!important}
+.activity-symbol{width:34px!important;height:34px!important}
+.activity-value strong{font-size:12.5px!important}
+.activity-value small{font-size:10px!important}
+
+/* ---------- Disconnected state ---------- */
 .content:has(.welcome-workspace) .quick-actions,
 .content:has(.welcome-workspace) .stats,
 .content:has(.welcome-workspace) .activity-block{display:none!important}
-.content:has(.welcome-workspace)>.notice{margin-bottom:16px!important}
-.welcome-workspace{grid-template-columns:1fr!important;max-width:780px!important;padding:34px!important;margin:22px auto 0!important;border-radius:20px!important}
-.welcome-copy{max-width:560px!important}
-.welcome-copy .eyebrow{display:none!important}
-.welcome-copy h2{font-size:30px!important;margin:0 0 10px!important}
-.welcome-copy p{font-size:14px!important;line-height:1.6!important;margin-bottom:22px!important}
-.welcome-steps{display:none!important}
+.content:has(.welcome-workspace) .page-heading>.btn{display:none!important}
+.content:has(.welcome-workspace)>.notice{margin-bottom:18px!important}
+.welcome-workspace{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr)!important;
+  gap:34px!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:30px!important;
+  border-radius:18px!important;
+  box-shadow:none!important;
+}
+.welcome-copy{max-width:600px!important;align-self:center!important}
+.welcome-copy .eyebrow{display:block!important;margin-bottom:10px!important}
+.welcome-copy h2{font-size:28px!important;margin:0 0 9px!important}
+.welcome-copy p{font-size:13.5px!important;line-height:1.6!important;margin-bottom:20px!important}
 .welcome-copy .btn.text{margin-left:10px!important}
+.welcome-steps{
+  display:block!important;
+  align-self:stretch!important;
+  max-width:none!important;
+  padding:4px 16px!important;
+  border:1px solid rgba(26,80,64,.11)!important;
+  border-radius:14px!important;
+  background:#fff!important;
+}
+.welcome-steps>div{padding:12px 0!important}
+.welcome-steps strong{font-size:12px!important}
+.welcome-steps small{font-size:10.5px!important}
+.welcome-trust{font-size:10.5px!important}
 
-/* Recent activity should feel like a simple payment list */
-.activity-block{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;margin-top:26px!important}
-.activity-block .section-head{margin-bottom:10px!important}
-.activity-block .eyebrow{display:none!important}
-.activity-block .section-head h2{font-size:18px!important}
-.activity-list{border:1px solid rgba(32,85,67,.12)!important;border-radius:16px!important;overflow:hidden!important;background:#fff!important}
-.activity-list>a{padding:14px 16px!important;border-radius:0!important;border:0!important;border-bottom:1px solid rgba(32,85,67,.09)!important;box-shadow:none!important}
-.activity-list>a:last-child{border-bottom:0!important}
-.activity-symbol{width:34px!important;height:34px!important}
-.activity-value strong{font-size:13px!important}
-.activity-value small{font-size:10px!important}
-
-/* Checkout lists */
-.section-head{margin:22px 0 10px!important}
-.section-head h2{font-size:18px!important}
-.tabs{gap:6px!important;margin:0 0 16px!important;overflow-x:auto!important;scrollbar-width:none!important}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{padding:8px 11px!important;font-size:12px!important;white-space:nowrap!important}
-.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
-.checkout-card{padding:17px!important;border-radius:16px!important}
-.checkout-card h3{font-size:17px!important;margin:14px 0 5px!important}
-.card-sub,.card-meta,.card-bottom{font-size:11px!important}
-.card-amount{font-size:20px!important;margin:16px 0 10px!important}
-
-/* Forms and payment screens */
-.checkout-layout{grid-template-columns:minmax(0,1.12fr) minmax(330px,.88fr)!important;gap:16px!important}
-.panel{padding:22px!important;border-radius:18px!important}
-.panel h2{font-size:20px!important}
+/* ---------- Forms, checkout, business, setup ---------- */
+.checkout-layout{
+  grid-template-columns:minmax(0,1.16fr) minmax(330px,.84fr)!important;
+  gap:16px!important;
+}
+.panel{padding:21px!important;border-radius:16px!important;box-shadow:none!important}
+.panel h2{font-size:19px!important}
 .panel .intro-copy{font-size:13px!important;line-height:1.55!important}
-.payment-panel{position:sticky!important;top:82px!important;height:max-content!important}
-.payment-panel .money{font-size:32px!important}
-label{font-size:12px!important;margin-bottom:7px!important}
-input,select,textarea{min-height:46px!important;border-radius:12px!important;padding:0 13px!important;font-size:14px!important}
-textarea{padding-top:12px!important}
-.review-list>div{padding:11px 0!important}
+.payment-panel{position:sticky!important;top:84px!important;height:max-content!important}
+.payment-panel .money{font-size:31px!important}
+label{font-size:12px!important;margin-bottom:6px!important}
+input,select,textarea{
+  min-height:45px!important;
+  border-radius:10px!important;
+  padding:0 12px!important;
+  font-size:13.5px!important;
+}
+textarea{padding-top:11px!important}
+.review-list>div{padding:10px 0!important}
 .review-list dt,.review-list dd{font-size:12px!important}
-.fee-note,.disclaimer{font-size:11px!important;line-height:1.45!important}
-
-/* Modals */
-dialog{width:min(92vw,520px)!important;max-height:86vh!important;border-radius:20px!important;padding:22px!important}
-.modal-title{margin-bottom:14px!important}
-.modal-title h2{font-size:22px!important}
-.demo-label,.onboarding-progress{display:none!important}
-
-/* Setup page is advanced; reduce visual weight */
+.fee-note,.disclaimer{font-size:10.5px!important;line-height:1.45!important}
+.business-start{padding:22px!important;border-radius:16px!important}
 .reference-links{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
 .reference-links a{font-size:11px!important}
 
-/* Desktop sidebar slightly slimmer */
-@media (min-width:901px){
-  .sidebar{width:216px!important}
-  .main{margin-left:216px!important}
-  .sidebar .brand{margin:18px 16px 10px!important}
-  .nav-label{margin:22px 16px 8px!important}
-  .nav a{margin:2px 8px!important;padding:10px 12px!important;border-radius:11px!important;font-size:13px!important}
+/* ---------- Modals ---------- */
+dialog{
+  width:min(92vw,510px)!important;
+  max-height:86vh!important;
+  padding:21px!important;
+  border-radius:18px!important;
 }
+.modal-title{margin-bottom:13px!important}
+.modal-title h2{font-size:21px!important}
+.review-total{font-size:31px!important}
 
-/* Tablet */
-@media (max-width:1100px){
-  .content{padding:28px 22px 48px!important}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .stats .stat:nth-child(3){display:none!important}
+/* ---------- Tablet ---------- */
+@media(max-width:1100px){
+  :root{--pro-sidebar:210px}
+  .sidebar{width:var(--pro-sidebar)!important;padding-left:13px!important;padding-right:13px!important}
+  .content{padding:28px 24px 46px!important}
+  .topbar{padding:0 24px!important}
+  .welcome-workspace{grid-template-columns:1fr!important;gap:18px!important}
+  .welcome-steps{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important}
+  .welcome-trust{grid-column:1/-1!important}
   .checkout-layout{grid-template-columns:1fr!important}
   .payment-panel{position:static!important}
 }
 
-/* Phone: one job per screen, bottom nav, no desktop leftovers */
-@media (max-width:900px){
-  body{padding-bottom:74px!important}
+/* ---------- Mobile ---------- */
+@media(max-width:900px){
+  body{padding-bottom:76px!important}
+  .layout{display:block!important}
   .sidebar{display:none!important}
-  .main{margin-left:0!important;width:100%!important}
-  .topbar{position:sticky!important;top:0!important;z-index:30!important;padding:10px 14px!important;min-height:58px!important;background:rgba(247,249,244,.96)!important;backdrop-filter:blur(14px)!important}
-  .mobile-brand{display:flex!important;font-size:17px!important}
+  .main{grid-column:auto!important;margin:0!important;width:100%!important}
+  .topbar{
+    min-height:60px!important;
+    height:60px!important;
+    padding:0 13px!important;
+    gap:8px!important;
+    justify-content:flex-start!important;
+  }
+  .crumb{display:none!important}
+  .mobile-brand{display:flex!important;font-size:17px!important;margin-right:auto!important}
+  .top-actions{margin-left:auto!important;gap:6px!important}
   .top-actions .network-pill{display:none!important}
-  .wallet-button{padding:9px 12px!important;font-size:12px!important;min-height:38px!important}
-  .content{padding:22px 14px 34px!important;max-width:none!important}
-  .page-heading{display:block!important;margin-bottom:16px!important}
-  .page-heading h1{font-size:27px!important;max-width:92%!important}
-  .page-heading p{font-size:13px!important;line-height:1.5!important;margin-top:6px!important}
-  .page-heading>.btn{width:100%!important;margin-top:14px!important}
+  .wallet-button{min-height:38px!important;padding:8px 11px!important;font-size:11.5px!important;max-width:150px!important}
+  .content{max-width:none!important;padding:20px 13px 28px!important}
+  .page-heading{display:block!important;margin-bottom:15px!important}
+  .page-heading h1{font-size:26px!important;line-height:1.12!important}
+  .page-heading p{font-size:12.5px!important;line-height:1.5!important;margin-top:5px!important}
+  .page-heading>.btn{width:100%!important;margin-top:13px!important}
+  .content>.notice{font-size:10.8px!important;padding:9px 10px!important;margin-bottom:13px!important}
 
-  .mobile-nav{display:grid!important;grid-template-columns:repeat(4,1fr)!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:60!important;padding:7px max(8px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important;background:#082b24!important;border-top:1px solid rgba(255,255,255,.08)!important;box-shadow:0 -10px 28px rgba(5,35,29,.15)!important}
-  .mobile-nav a{min-width:0!important;padding:5px 2px!important;gap:3px!important;font-size:10px!important;opacity:.7!important}
-  .mobile-nav a svg{width:19px!important;height:19px!important}
-  .mobile-nav a.active{opacity:1!important;color:#cbff79!important}
-  .mobile-nav a:nth-child(4),.mobile-nav a:nth-child(5){display:none!important}
-  .mobile-nav a:nth-child(6){display:flex!important}
+  /* Five standard destinations. Refunds stay available inside the checkout flow. */
+  .mobile-nav{
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    position:fixed!important;
+    left:0!important;right:0!important;bottom:0!important;
+    z-index:60!important;
+    padding:6px 5px calc(7px + env(safe-area-inset-bottom))!important;
+    border:0!important;
+    border-top:1px solid rgba(255,255,255,.08)!important;
+    background:#082b24!important;
+    box-shadow:0 -8px 24px rgba(5,35,29,.14)!important;
+    gap:1px!important;
+  }
+  .mobile-nav a{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-width:0!important;
+    min-height:50px!important;
+    padding:5px 1px!important;
+    gap:3px!important;
+    border-radius:8px!important;
+    color:#a9c0b7!important;
+    opacity:.82!important;
+    font-size:9px!important;
+  }
+  .mobile-nav a svg{width:18px!important;height:18px!important}
+  .mobile-nav a span{display:block!important;font-size:9px!important;white-space:nowrap!important}
+  .mobile-nav a.active{color:#d4fa83!important;background:rgba(212,250,131,.09)!important;opacity:1!important}
+  .mobile-nav a:nth-child(4){display:none!important}
+  .mobile-nav a:nth-child(5),.mobile-nav a:nth-child(6){display:flex!important}
 
-  .content>.notice{font-size:11px!important;padding:10px 11px!important}
-  .quick-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:12px 0 16px!important}
-  .quick-actions>a,.quick-actions>button{min-height:68px!important;padding:12px!important}
-  .quick-actions>a:nth-child(3){grid-column:1 / -1!important;min-height:58px!important}
+  .quick-actions{grid-template-columns:1fr 1fr!important;gap:9px!important;margin-bottom:11px!important}
+  .quick-actions>a,.quick-actions>button{min-height:64px!important;padding:11px!important}
+  .quick-actions>a:nth-child(3){grid-column:1/-1!important;min-height:54px!important}
+  .quick-actions small{display:none!important}
+  .quick-icon{width:34px!important;height:34px!important;flex-basis:34px!important}
 
-  .stats{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .stats{grid-template-columns:1fr 1fr!important;gap:9px!important;margin-bottom:19px!important}
   .stats .stat:nth-child(3){display:none!important}
-  .stat{min-height:108px!important;padding:14px!important}
-  .stat .money{font-size:22px!important;margin-top:9px!important}
-  .stat-foot{font-size:10px!important}
+  .stat{min-height:104px!important;padding:13px!important}
+  .stat .money{font-size:21px!important;margin-top:8px!important}
+  .stat-foot{font-size:9.5px!important}
 
-  .welcome-workspace{padding:22px!important;margin-top:14px!important;border-radius:18px!important}
-  .welcome-copy h2{font-size:25px!important}
-  .welcome-copy p{font-size:13px!important}
-  .welcome-copy .btn{width:100%!important;margin:0!important}
-  .welcome-copy .btn.text{display:none!important}
+  .welcome-workspace{display:block!important;padding:20px!important;border-radius:16px!important}
+  .welcome-copy .eyebrow{display:none!important}
+  .welcome-copy h2{font-size:24px!important}
+  .welcome-copy p{font-size:12.5px!important;margin-bottom:17px!important}
+  .welcome-copy .btn{width:100%!important;margin:0 0 8px!important}
+  .welcome-copy .btn.text{display:inline-flex!important;width:auto!important;margin:2px 0 0!important}
+  .welcome-steps{display:none!important}
 
-  .activity-block{margin-top:20px!important}
+  .section-head{margin:17px 0 8px!important;align-items:center!important}
+  .section-head .btn{padding:7px 9px!important;font-size:10.5px!important;min-height:36px!important}
+  .tabs{margin-bottom:11px!important}
+  .tabs button{font-size:11px!important;padding:7px 9px 9px!important}
+  .cards{grid-template-columns:1fr!important;gap:9px!important}
+  .checkout-card{padding:14px!important}
+  .activity-block{margin-top:18px!important}
   .activity-block .section-head .btn{display:none!important}
-  .activity-list>a{grid-template-columns:34px minmax(0,1fr) auto!important;padding:12px!important;gap:10px!important}
-  .activity-list small{max-width:150px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
-
-  .cards{grid-template-columns:1fr!important;gap:10px!important}
-  .checkout-card{padding:15px!important}
-  .card-bottom{margin-top:11px!important}
-
-  .section-head{align-items:center!important;margin:18px 0 9px!important}
-  .section-head .btn{padding:8px 10px!important;font-size:11px!important}
-  .tabs{margin-bottom:12px!important}
+  .activity-list>a{padding:11px!important;gap:9px!important}
 
   .checkout-layout{display:block!important}
-  .panel{padding:17px!important;border-radius:16px!important;margin-bottom:12px!important}
+  .panel{padding:16px!important;border-radius:14px!important;margin-bottom:11px!important}
   .payment-panel{position:static!important}
-  .payment-panel .money{font-size:29px!important}
-  .bill-header{gap:10px!important}
-  .bill-header h2{font-size:19px!important}
-  .people-row{grid-template-columns:34px minmax(0,1fr) auto!important;gap:9px!important;padding:10px 0!important}
-  .people-row .chain-link{font-size:11px!important}
+  .payment-panel .money{font-size:28px!important}
+  .bill-header h2{font-size:18px!important}
+  .people-row{gap:8px!important;padding:9px 0!important}
   .segmented{display:grid!important;grid-template-columns:repeat(3,1fr)!important}
-  .segmented button{font-size:11px!important;padding:9px 5px!important}
+  .segmented button{font-size:10.5px!important;padding:8px 4px!important}
 
-  dialog{width:calc(100vw - 20px)!important;max-height:82vh!important;padding:18px!important;border-radius:18px!important;margin:auto!important}
-  .modal-title h2{font-size:20px!important}
-  .review-total{font-size:30px!important}
-
-  .empty-state{padding:34px 18px!important;border-radius:16px!important}
-  .empty-state h2{font-size:20px!important}
-  .empty-state p{font-size:12px!important;max-width:300px!important}
-
-  /* Reduce long explanation copy on mobile */
-  .panel .notice+ .notice{display:none!important}
-  .payment-proof{font-size:10px!important}
-  .last-sync{display:none!important}
+  dialog{width:calc(100vw - 18px)!important;max-height:84vh!important;padding:17px!important;border-radius:16px!important;margin:auto!important}
+  .modal-title h2{font-size:19px!important}
+  .review-total{font-size:28px!important}
+  #toast{bottom:82px!important}
 }
 
-/* Very small devices */
-@media (max-width:420px){
-  .content{padding-left:12px!important;padding-right:12px!important}
-  .page-heading h1{font-size:25px!important}
+@media(max-width:430px){
+  .content{padding-left:11px!important;padding-right:11px!important}
+  .page-heading h1{font-size:24px!important}
   .quick-actions{grid-template-columns:1fr!important}
   .quick-actions>a:nth-child(3){grid-column:auto!important}
   .stats{grid-template-columns:1fr!important}
   .stats .stat:nth-child(2){display:none!important}
-  .activity-value small{display:none!important}
-  .wallet-button{max-width:150px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .wallet-button{max-width:132px!important}
+  .mobile-nav a span{font-size:8.5px!important}
 }
