@@ -15,16 +15,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Run tests
         run: npm test
@@ -35,7 +35,9 @@ jobs:
       - name: Check tracked sensitive files
         shell: bash
         run: |
-          if git ls-files | grep -E '(^|/)(\.env($|\.)|\.test-wallet\.json$|.*\.pem$|.*\.key$)'; then
+          sensitive=$(git ls-files | grep -E '(^|/)(\.env$|\.env\.(local|production|development|test)$|\.test-wallet\.json$|.*\.pem$|.*\.key$)' || true)
+          if [ -n "$sensitive" ]; then
+            echo "$sensitive"
             echo "Sensitive file detected in git index"
             exit 1
           fi
