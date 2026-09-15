@@ -21,15 +21,15 @@ export async function connect(id){
  accountHandler=accounts=>{state.account=accounts[0]?getAddress(accounts[0]):null;state.balance=null;state.bills=[];emit();refreshWallet().catch(()=>{});};
  chainHandler=id=>{state.chainId=Number(id);emit();};disconnectHandler=()=>disconnect();
  provider.on?.('accountsChanged',accountHandler);provider.on?.('chainChanged',chainHandler);provider.on?.('disconnect',disconnectHandler);
- state.chainId=Number(await provider.request({method:'eth_chainId'}));await refreshWallet();emit();
+ state.chainId=Number(await provider.request({method:'eth_chainId'}));await refreshWallet();emit();localStorage.setItem('arrey-wallet-id', id);
 }
 function detach(){if(state.provider){state.provider.removeListener?.('accountsChanged',accountHandler);state.provider.removeListener?.('chainChanged',chainHandler);state.provider.removeListener?.('disconnect',disconnectHandler);}}
-export function disconnect(){detach();state.account=null;state.provider=null;state.chainId=null;state.balance=null;state.bills=[];emit();}
+export function disconnect(){detach();state.account=null;state.provider=null;state.chainId=null;state.balance=null;state.bills=[];emit();localStorage.removeItem('arrey-wallet-id');}
 export async function refreshWallet(){const account=state.account;if(!account)return;const balance=await publicClient.readContract({address:USDC,abi:erc20Abi,functionName:'balanceOf',args:[account]});if(state.account===account){state.balance=balance;emit();}}
 export async function ensureArc(){
  if(!state.provider||!state.account)throw Error('Connect your wallet first.');
  let id=Number(await state.provider.request({method:'eth_chainId'}));
- if(id!==ARC_ID){try{await state.provider.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+ARC_ID.toString(16)}]});}catch(e){if(e.code!==4902&&e.cause?.code!==4902)throw e;await state.provider.request({method:'wallet_addEthereumChain',params:[{chainId:'0x'+ARC_ID.toString(16),chainName:arc.name,nativeCurrency:arc.nativeCurrency,rpcUrls:[ARC_RPC],blockExplorerUrls:[EXPLORER]}]});}}
+ if(id!==ARC_ID){try{await state.provider.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+ARC_ID.toString(16)}]});}catch(e){if(e.code!==4902&&e.cause?.code!==4902&&!(e.message&&/unrecognized chain/i.test(e.message)))throw e;await state.provider.request({method:'wallet_addEthereumChain',params:[{chainId:'0x'+ARC_ID.toString(16),chainName:arc.name,nativeCurrency:arc.nativeCurrency,rpcUrls:[ARC_RPC],blockExplorerUrls:[EXPLORER]}]});}}
  id=Number(await state.provider.request({method:'eth_chainId'}));if(id!==ARC_ID)throw Error('Switch to Arc Testnet in your wallet. Mainnet payments are disabled.');
  const accounts=await state.provider.request({method:'eth_accounts'});if(!accounts[0]||getAddress(accounts[0])!==state.account)throw Error('Wallet account changed. Reconnect before continuing.');state.chainId=id;
  return createWalletClient({account:state.account,chain:arc,transport:custom(state.provider)});
@@ -38,7 +38,7 @@ export async function addArcNetwork(){
  if(!state.provider)throw Error('Connect your wallet first.');
  const params={chainId:'0x'+ARC_ID.toString(16),chainName:arc.name,nativeCurrency:arc.nativeCurrency,rpcUrls:[ARC_RPC,'https://rpc.drpc.testnet.arc.io'],blockExplorerUrls:[EXPLORER]};
  try{await state.provider.request({method:'wallet_switchEthereumChain',params:[{chainId:params.chainId}]});}
- catch(e){if(e.code!==4902&&e.cause?.code!==4902)throw e;await state.provider.request({method:'wallet_addEthereumChain',params:[params]});}
+ catch(e){if(e.code!==4902&&e.cause?.code!==4902&&!(e.message&&/unrecognized chain/i.test(e.message)))throw e;await state.provider.request({method:'wallet_addEthereumChain',params:[params]});}
  state.chainId=Number(await state.provider.request({method:'eth_chainId'}));emit();return state.chainId===ARC_ID;
 }
 export async function checkNetwork(){const [chainId,decimals]=await Promise.all([publicClient.getChainId(),publicClient.readContract({address:USDC,abi:erc20Abi,functionName:'decimals'})]);if(chainId!==ARC_ID||Number(decimals)!==6)throw Error('Arc network or USDC configuration mismatch. Payments are disabled.');state.network=true;emit();return true;}
@@ -59,3 +59,19 @@ export async function refundBill(id){return task(()=>write('claimRefund',[BigInt
 export async function sendUSDC(to,amount){return task(async()=>{if(!isAddress(to)||/^0x0{40}$/i.test(to))throw Error('Enter a valid recipient wallet.');const wallet=await ensureArc();await checkNetwork();await refreshWallet();if(state.balance<=amount)throw Error('Insufficient USDC including network fees.');const {request}=await publicClient.simulateContract({address:USDC,abi:erc20Abi,functionName:'transfer',args:[getAddress(to),amount],account:state.account});state.step='Confirm USDC transfer';emit();return wait(await wallet.writeContract(request),'Waiting for transfer confirmation…');});}
 export async function estimateSend(to,amount){if(!isAddress(to))throw Error('Invalid recipient.');const [gas,price]=await Promise.all([publicClient.estimateContractGas({address:USDC,abi:erc20Abi,functionName:'transfer',args:[getAddress(to),amount],account:state.account}),publicClient.getGasPrice()]);return formatUnits(gas*price,18);}
 export {artifact,USDC,EXPLORER,WC_PROJECT_ID};
+
+export async function autoConnect(){
+ const id=localStorage.getItem('arrey-wallet-id');
+ if(!id)return;
+ if(id==='walletconnect'){try{await connect(id);}catch(e){}}
+ else{
+  setTimeout(async()=>{
+   const d=getProviders().find(p=>p.info.uuid===id);
+   if(!d)return;
+   try{
+    const accounts=await d.provider.request({method:'eth_accounts'});
+    if(accounts&&accounts.length>0)await connect(id);
+   }catch(e){}
+  },300);
+ }
+}
