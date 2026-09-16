@@ -24,7 +24,7 @@ test('escrow lifecycle: exact settlement, races, authorization, refund isolation
  await write(0,'create',['Cancelled','Cafe',3000000n,now+3600n,3]);await write(1,'contribute',[2n,1000000n]);await write(0,'cancel',[2n]);await rejected(3,'claimRefund',[2n]);await write(1,'claimRefund',[2n]);assert.equal(await read('refunded',[2n,accounts[1]]),1000000n);await rejected(1,'claimRefund',[2n]);await rejected(2,'contribute',[2n,1n]);
  await write(0,'create',['Expiry','Cafe',1000000n,now+60n,2]);await write(1,'contribute',[3n,400000n]);await provider.request({method:'evm_increaseTime',params:[65]});await provider.request({method:'evm_mine',params:[]});await rejected(2,'contribute',[3n,600000n]);await write(1,'claimRefund',[3n]);
  now=(await p.getBlock()).timestamp;await write(0,'create',['Restricted recipient','Cafe',1000000n,now+3600n,2]);await write(1,'contribute',[4n,400000n]);await write(0,'blockAddress',[accounts[0]],token,mock.abi);await rejected(2,'contribute',[4n,600000n]);assert.equal((await read('getBill',[4n])).raised,400000n);assert.equal(await read('contribution',[4n,accounts[2]]),0n);await write(0,'cancel',[4n]);await write(1,'claimRefund',[4n]);
- const [ids,total]=await read('getWalletBills',[accounts[1],0n,100n]);assert.equal(total,4n);assert.deepEqual(ids,[4n,3n,2n,1n]);
+ const [ids,total]=await read('getWalletBills',[accounts[1],0n,100n]);assert.equal(total,4n);assert.deepEqual(ids,[4n,3n,2n,1n]);const [older]=await read('getWalletBills',[accounts[1],2n,2n]);assert.deepEqual(older,[2n,1n]);
  await rejected(0,'create',['','Cafe',1n,now+100n,2]);await rejected(0,'create',['Bad','Cafe',1n,now+100n,0]);
  const code=await p.getCode({address});assert.equal(code,artifact.deployedBytecode);
  }finally{await provider.disconnect();}

@@ -9,6 +9,7 @@ Wallet-signed Circle USDC transfers and shared checkout. This release replaces t
 - Shared bills: full, suggested equal or custom contributions; exact settlement to the creator's wallet only when fully funded.
 - Merchant cancellation and contributor-claimed refunds after cancellation or expiry. Direct transfers and settled bills cannot be reversed.
 - QR and share links including the verified registry address. Any device can read the same onchain bill.
+- History shows wallet-linked onchain checkouts in pages of 20, with current status and amounts read from the contract. Confirmed checkout actions and direct-send receipts made through this browser are also saved per wallet on this device, deduplicated by transaction hash. ArcScan is the complete transaction record, including actions from other devices or wallets. Local receipt dates are recorded after confirmation, not claimed as onchain block timestamps. The v1 contract does not expose creation or update timestamps in its bill getter.
 - Circle Bridge Kit + viem adapter for Ethereum Sepolia / Base Sepolia to Arc Testnet through CCTP. Official faucet link; incomplete bridge progress and returned recovery data are persisted locally so the same wallet can resume when Circle returns a retryable result.
 - Responsive desktop layout, phone bottom navigation, single-column payment forms, readable inputs, reduced motion and keyboard dialogs.
 
@@ -53,6 +54,8 @@ Authoritative references:
 ## Deployment status and limits
 
 If `web/deployment.js` is empty and `public/deployment.json` does not exist, the automated deployment is still waiting for test-wallet funding. The website clearly shows setup is required; it never invents a successful transaction or checkout.
+
+The shared-checkout journeys can be verified by the local contract suite, but live checkout creation, contribution, cancellation and refund require a funded Arc Testnet wallet and a verified deployment. The Circle bridge also needs source-chain test USDC and gas. Neither flow has been claimed as live end-to-end verified until those prerequisites are supplied.
 
 This is unaudited testnet software. Bills and wallet contributions are public onchain; business names are self-declared. The registry has no administrator withdrawals, upgrades, or fee recipient. Users retain responsibility for verifying recipient addresses and confirming wallet requests.
 
